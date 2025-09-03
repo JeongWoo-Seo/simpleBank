@@ -7,19 +7,35 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    name: Test
+  test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13-alpine
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: simple_bank
+        options: >-
+          --health-cmd="pg_isready -U root -d simple_bank"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: "1.24.5"
-      id: go
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.5"
 
-    - name: Run tests
-      run: make test
+      - name: Run migrations
+        run: make migrateup
+
+      - name: Run tests
+        run: make test
