@@ -6,27 +6,22 @@ import (
 	"os"
 	"testing"
 
+	"github.com/JeongWoo-Seo/simpleBank/util"
 	_ "github.com/lib/pq"
 )
 
 var testDB *sql.DB
 var testQueries *Queries
 
-// DB 연결 소스 (환경변수 없으면 기본값 사용)
-func testDBSource() string {
-	source := os.Getenv("TEST_DB_SOURCE")
-	if source == "" {
-		source = "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable"
-	}
-	return source
-}
-
 // go test 실행 시 제일 먼저 실행됨
 func TestMain(m *testing.M) {
-	var err error
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot load config")
+	}
 
 	// DB 연결
-	testDB, err = sql.Open("postgres", testDBSource())
+	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatalf("❌ cannot connect to db: %v", err)
 	}
