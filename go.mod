@@ -7,6 +7,7 @@ require (
 	github.com/lib/pq v1.10.5
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.11.1
+	go.uber.org/mock v0.6.0
 )
 
 require (
