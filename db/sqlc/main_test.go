@@ -11,7 +11,7 @@ import (
 )
 
 var testDB *sql.DB
-var testQueries *Queries
+var testStore Store
 
 // go test 실행 시 제일 먼저 실행됨
 func TestMain(m *testing.M) {
@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 	}
 
 	// 전역 Queries, Store 초기화
-	testQueries = New(testDB)
+	testStore = NewStore(testDB)
 
 	// 모든 테스트 실행
 	code := m.Run()
