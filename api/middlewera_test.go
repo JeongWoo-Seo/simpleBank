@@ -27,7 +27,7 @@ func addAuthorization(
 	request.Header.Set(authorizationHeaderKey, authorizationHeader)
 }
 
-func TestAuthMiddlewera(t *testing.T) {
+func TestAuthMiddleware(t *testing.T) {
 	testcase := []struct {
 		name          string
 		setupAuth     func(t *testing.T, request *http.Request, tokenMaker token.Maker)
@@ -81,7 +81,7 @@ func TestAuthMiddlewera(t *testing.T) {
 			authPath := "/auth"
 			server.router.GET(
 				authPath,
-				authMiddlewera(server.tokenMaker),
+				authMiddleware(server.tokenMaker),
 				func(ctx *gin.Context) {
 					ctx.JSON(http.StatusOK, gin.H{})
 				},
