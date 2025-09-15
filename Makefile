@@ -13,16 +13,16 @@ dropdb:
 	docker exec -it $(DB_CONTAINER) dropdb $(DB_NAME)
 
 migrateup:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" up
+	migrate -path db/migration -database "postgres://root:oxa3Yp9G4jSOLm8CSpcC@simple-bank.c5u2ygyc6ljx.ap-northeast-2.rds.amazonaws.com:5432/simple_bank" -verbose up
 
 migrateup1:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" up 1
+	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
 
 migratedown:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" down
+	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
 migratedown1:
-	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" down 1
+	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
 sqlc:
 	sqlc generate
