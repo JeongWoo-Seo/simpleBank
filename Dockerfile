@@ -22,6 +22,7 @@ COPY --from=builder /app/migrate ./migrate
 COPY app.env .
 COPY db/migration ./migration
 COPY start.sh .
+COPY wait-for.sh .
 
 RUN chmod +x /app/start.sh
 
