@@ -3,17 +3,25 @@ package gapi
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	db "github.com/JeongWoo-Seo/simpleBank/db/sqlc"
 	"github.com/JeongWoo-Seo/simpleBank/pb"
 	"github.com/JeongWoo-Seo/simpleBank/util"
+	"github.com/JeongWoo-Seo/simpleBank/val"
 	"github.com/lib/pq"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
+	violation := validDataCreateUserRequest(req)
+	if violation != nil {
+		return nil, invalidArgumentError(violation)
+	}
+
 	hashedPassword, err := util.HashPassword(req.GetPassword())
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "fail password %s", err)
@@ -45,6 +53,11 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 }
 
 func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {
+	violation := validDataLoginUserRequest(req)
+	if violation != nil {
+		return nil, invalidArgumentError(violation)
+	}
+
 	user, err := s.store.GetUser(ctx, req.GetUsername())
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -92,4 +105,120 @@ func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.L
 	}
 
 	return res, nil
+}
+
+func (s *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.UpdateUserResponse, error) {
+	authPayload, err := s.authorizationUser(ctx)
+	if err != nil {
+		return nil, unauthenticatedError(err)
+	}
+
+	violation := validDataUpdateUserRequest(req)
+	if violation != nil {
+		return nil, invalidArgumentError(violation)
+	}
+
+	if authPayload.Username != req.GetUsername() {
+		return nil, status.Errorf(codes.PermissionDenied, "cannot update other user")
+	}
+
+	arg := db.UpdateUserParams{
+		Username: req.GetUsername(),
+		FullName: sql.NullString{
+			String: req.GetFullName(),
+			Valid:  req.FullName != nil,
+		},
+		Email: sql.NullString{
+			String: req.GetEmail(),
+			Valid:  req.Email != nil,
+		},
+	}
+
+	if req.Password != nil {
+		hashedPassword, err := util.HashPassword(req.GetPassword())
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "fail password %s", err)
+		}
+
+		arg.HashedPassword = sql.NullString{
+			String: hashedPassword,
+			Valid:  true,
+		}
+
+		arg.PasswordChangedAt = sql.NullTime{
+			Time:  time.Now(),
+			Valid: true,
+		}
+	}
+
+	user, err := s.store.UpdateUser(ctx, arg)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, status.Errorf(codes.NotFound, "user no exist")
+		}
+		return nil, status.Errorf(codes.Internal, "fail update ")
+	}
+
+	res := &pb.UpdateUserResponse{
+		User: converterUser(user),
+	}
+
+	return res, nil
+}
+
+func validDataCreateUserRequest(req *pb.CreateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := val.ValidDateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+
+	if err := val.ValidDatePassword(req.GetPassword()); err != nil {
+		violations = append(violations, fieldViolation("password", err))
+	}
+
+	if err := val.ValidDateFullname(req.GetFullName()); err != nil {
+		violations = append(violations, fieldViolation("full_name", err))
+	}
+
+	if err := val.ValidDateEmail(req.GetEmail()); err != nil {
+		violations = append(violations, fieldViolation("email", err))
+	}
+
+	return violations
+}
+
+func validDataLoginUserRequest(req *pb.LoginUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := val.ValidDateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+
+	if err := val.ValidDatePassword(req.GetPassword()); err != nil {
+		violations = append(violations, fieldViolation("password", err))
+	}
+
+	return violations
+}
+
+func validDataUpdateUserRequest(req *pb.UpdateUserRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := val.ValidDateUsername(req.GetUsername()); err != nil {
+		violations = append(violations, fieldViolation("username", err))
+	}
+
+	if req.Password != nil {
+		if err := val.ValidDatePassword(req.GetPassword()); err != nil {
+			violations = append(violations, fieldViolation("password", err))
+		}
+	}
+
+	if req.FullName != nil {
+		if err := val.ValidDateFullname(req.GetFullName()); err != nil {
+			violations = append(violations, fieldViolation("full_name", err))
+		}
+	}
+
+	if req.Email != nil {
+		if err := val.ValidDateEmail(req.GetEmail()); err != nil {
+			violations = append(violations, fieldViolation("email", err))
+		}
+	}
+	return violations
 }
