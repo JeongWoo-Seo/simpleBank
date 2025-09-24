@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "rpc_create_user.proto";
 import "rpc_login_user.proto";
 import "rpc_update_user.proto";
+import "rpc_verify_email.proto";
 
 option go_package = "github.com/JeongWoo-Seo/simpleBank/pb";
 
@@ -26,6 +27,11 @@ service SimpleBank {
         option (google.api.http) = {
             post: "/v2/users/update"
             body: "*"
+        };
+    }
+    rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse){
+        option (google.api.http) = {
+            get: "/v2/verify_email"
         };
     }
 }

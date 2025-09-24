@@ -51,7 +51,18 @@ func ValidDateEmail(value string) error {
 	}
 
 	if _, err := mail.ParseAddress(value); err != nil {
-		return fmt.Errorf("Is not a valid email address")
+		return fmt.Errorf("is not a valid email address")
 	}
 	return nil
+}
+
+func ValidDataEmailID(value int64) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive integer")
+	}
+	return nil
+}
+
+func ValidDataSecretCode(value string) error {
+	return ValidDataString(value, 32, 128)
 }
