@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/JeongWoo-Seo/simpleBank/token"
+	"github.com/JeongWoo-Seo/simpleBank/util"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )
@@ -18,9 +19,10 @@ func addAuthorization(
 	tokenMaker token.Maker,
 	authorizationType string,
 	username string,
+	role string,
 	duration time.Duration,
 ) {
-	token, payload, err := tokenMaker.CreateToken(username, duration)
+	token, payload, err := tokenMaker.CreateToken(username, role, duration)
 	require.NoError(t, err)
 	require.NotEmpty(t, payload)
 
@@ -37,7 +39,7 @@ func TestAuthMiddleware(t *testing.T) {
 		{
 			name: "ok",
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "user", time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "user", util.DepositorRole, time.Minute)
 			},
 			checkResponse: func(t *testing.T, recoder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusOK, recoder.Code)
@@ -56,7 +58,7 @@ func TestAuthMiddleware(t *testing.T) {
 		{
 			name: "unsupportAuthorization",
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, "unsupport", "user", time.Minute)
+				addAuthorization(t, request, tokenMaker, "unsupport", "user", util.DepositorRole, time.Minute)
 			},
 			checkResponse: func(t *testing.T, recoder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusUnauthorized, recoder.Code)
@@ -65,7 +67,7 @@ func TestAuthMiddleware(t *testing.T) {
 		{
 			name: "expiredToken",
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "user", -time.Minute)
+				addAuthorization(t, request, tokenMaker, authorizationTypeBearer, "user", util.DepositorRole, -time.Minute)
 			},
 			checkResponse: func(t *testing.T, recoder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusUnauthorized, recoder.Code)

@@ -85,12 +85,12 @@ func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.L
 		return nil, status.Errorf(codes.Unauthenticated, "not match password %s", err)
 	}
 
-	accessToken, accessPayload, err := s.tokenMaker.CreateToken(req.GetUsername(), s.config.AccessTokenDuration)
+	accessToken, accessPayload, err := s.tokenMaker.CreateToken(req.GetUsername(), user.Role, s.config.AccessTokenDuration)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "fail to create access token %s", err)
 	}
 
-	refreshToken, refreshPayload, err := s.tokenMaker.CreateToken(req.GetUsername(), s.config.RefreshTokenDuration)
+	refreshToken, refreshPayload, err := s.tokenMaker.CreateToken(req.GetUsername(), user.Role, s.config.RefreshTokenDuration)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "fail to create refresh token %s", err)
 	}
@@ -122,7 +122,7 @@ func (s *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.L
 }
 
 func (s *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb.UpdateUserResponse, error) {
-	authPayload, err := s.authorizationUser(ctx)
+	authPayload, err := s.authorizationUser(ctx, []string{util.DepositorRole, util.BankerRole})
 	if err != nil {
 		return nil, unauthenticatedError(err)
 	}
@@ -132,7 +132,7 @@ func (s *Server) UpdateUser(ctx context.Context, req *pb.UpdateUserRequest) (*pb
 		return nil, invalidArgumentError(violation)
 	}
 
-	if authPayload.Username != req.GetUsername() {
+	if authPayload.Role != util.BankerRole && authPayload.Username != req.GetUsername() {
 		return nil, status.Errorf(codes.PermissionDenied, "cannot update other user")
 	}
 

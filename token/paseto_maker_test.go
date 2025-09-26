@@ -13,12 +13,13 @@ func TestPasetoMaker(t *testing.T) {
 	require.NoError(t, err)
 
 	username := util.RandomOwner()
+	role := util.DepositorRole
 	duration := time.Minute
 
 	issuedAt := time.Now()
 	expiredAt := time.Now().Add(duration)
 
-	token, payload, err := maker.CreateToken(username, duration)
+	token, payload, err := maker.CreateToken(username, role, duration)
 	require.NoError(t, err)
 	require.NotEmpty(t, token)
 	require.NotEmpty(t, payload)
@@ -28,6 +29,7 @@ func TestPasetoMaker(t *testing.T) {
 	require.NotEmpty(t, payload)
 	require.NotZero(t, payload.ID)
 	require.Equal(t, payload.Username, username)
+	require.Equal(t, role, payload.Role)
 	require.WithinDuration(t, payload.IssuedAt, issuedAt, time.Second)
 	require.WithinDuration(t, payload.ExpiredAt, expiredAt, time.Second)
 }
@@ -36,7 +38,7 @@ func TestExpiredPasetoToken(t *testing.T) {
 	maker, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
 
-	token, payload, err := maker.CreateToken(util.RandomOwner(), -time.Minute)
+	token, payload, err := maker.CreateToken(util.RandomOwner(), util.DepositorRole, -time.Minute)
 	require.NoError(t, err)
 	require.NotEmpty(t, token)
 	require.NotEmpty(t, payload)
@@ -49,7 +51,7 @@ func TestExpiredPasetoToken(t *testing.T) {
 
 func TestInvalidPasetoToken(t *testing.T) {
 	// 정상 payload 생성
-	payload, err := NewPayload(util.RandomOwner(), time.Minute)
+	payload, err := NewPayload(util.RandomOwner(), util.DepositorRole, time.Minute)
 	require.NoError(t, err)
 	require.NotEmpty(t, payload)
 
@@ -58,7 +60,7 @@ func TestInvalidPasetoToken(t *testing.T) {
 	require.NoError(t, err)
 
 	// 공격자가 잘못된 key로 토큰 생성
-	token, _, err := wrongMaker.CreateToken(payload.Username, time.Minute)
+	token, _, err := wrongMaker.CreateToken(payload.Username, util.DepositorRole, time.Minute)
 	require.NoError(t, err)
 	require.NotEmpty(t, token)
 
