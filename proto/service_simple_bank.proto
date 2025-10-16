@@ -7,29 +7,70 @@ import "rpc_create_user.proto";
 import "rpc_login_user.proto";
 import "rpc_update_user.proto";
 import "rpc_verify_email.proto";
+import "rpc_create_account.proto";
+import "rpc_get_account.proto";
+import "rpc_list_account.proto";
+import "rpc_renew_access_token.proto";
+import "rpc_transfer.proto";
 
 option go_package = "github.com/JeongWoo-Seo/simpleBank/pb";
 
 service SimpleBank {
-    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse){
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
         option (google.api.http) = {
             post: "/v2/users"
             body: "*"
         };
     }
-    rpc LoginUser (LoginUserRequest) returns (LoginUserResponse){
+
+    rpc LoginUser (LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
             post: "/v2/users/login"
             body: "*"
         };
     }
-    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse){
+
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
-            post: "/v2/users/update"
+            put: "/v2/users/{username}"
             body: "*"
         };
     }
-    rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse){
+
+    rpc CreateAccount (CreateAccountRequest) returns (CreateAccountResponse) {
+        option (google.api.http) = {
+            post: "/v2/accounts"
+            body: "*"
+        };
+    }
+
+    rpc GetAccount (GetAccountRequest) returns (GetAccountResponse) {
+        option (google.api.http) = {
+            get: "/v2/accounts/{id}"
+        };
+    }
+
+    rpc ListAccount (ListAccountRequest) returns (ListAccountResponse) {
+        option (google.api.http) = {
+            get: "/v2/accounts"
+        };
+    }
+
+    rpc CreateTransfer (CreateTransferRequest) returns (CreateTransferResponse) {
+        option (google.api.http) = {
+            post: "/v2/transfers"
+            body: "*"
+        };
+    }
+
+    rpc RenewAccessToken (RenewAccessTokenRequest) returns (RenewAccessTokenResponse) {
+        option (google.api.http) = {
+            post: "/v2/tokens/renew_access"
+            body: "*"
+        };
+    }
+
+    rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse) {
         option (google.api.http) = {
             get: "/v2/verify_email"
         };

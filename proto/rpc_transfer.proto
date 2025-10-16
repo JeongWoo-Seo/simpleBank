@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package pb;
+
+import "account.proto";
+import "entry.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/JeongWoo-Seo/simpleBank/pb";
+
+message Transfer{
+    int64   id = 1;
+	int64   from_account_id = 2;
+	int64   to_account_id = 3;
+	int64   amount = 4;
+	google.protobuf.Timestamp   created_at = 5;
+}
+
+message CreateTransferRequest{
+    int64  from_account_id = 1;
+	int64  to_account_id = 2;
+	int64  amount = 3;
+	string currency = 4;
+}
+
+message CreateTransferResponse{
+    Transfer transfer = 1;
+    Account  fromAccount = 2;
+    Account  toAccount = 3;
+    Entry    fromEntry = 4;
+    Entry    toEntry = 5;
+}

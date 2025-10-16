@@ -31,6 +31,7 @@ import (
 	"github.com/rakyll/statik/fs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 var interruptSignals = []os.Signal{
@@ -123,7 +124,21 @@ func runGatewayServer(
 		log.Fatal().Msg("can not create server")
 	}
 
-	grpcMux := runtime.NewServeMux()
+	jsonOption := &runtime.JSONPb{
+		MarshalOptions: protojson.MarshalOptions{
+			UseProtoNames:   true, // protobuf 필드명 그대로 사용 (snake_case)
+			EmitUnpopulated: true, // 비어 있는 필드도 포함
+		},
+		UnmarshalOptions: protojson.UnmarshalOptions{
+			DiscardUnknown: true, // 알 수 없는 필드는 무시
+		},
+	}
+
+	// grpc-gateway multiplexer 생성 (snake_case 옵션 포함)
+	grpcMux := runtime.NewServeMux(
+		runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonOption),
+	)
+
 	err = pb.RegisterSimpleBankHandlerServer(ctx, grpcMux, server)
 	if err != nil {
 		log.Fatal().Err(err).Msg("cannot register handler:")
@@ -171,7 +186,7 @@ func runGatewayServer(
 
 		err := httpServer.Shutdown(context.Background())
 		if err != nil {
-			log.Error().Err(err).Msg("failed to shutdwon http gateway server")
+			log.Error().Err(err).Msg("failed to shutdown http gateway server")
 			return err
 		}
 

@@ -25,40 +25,66 @@ var File_service_simple_bank_proto protoreflect.FileDescriptor
 
 const file_service_simple_bank_proto_rawDesc = "" +
 	"\n" +
-	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto2\xe9\x02\n" +
+	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto\x1a\x18rpc_create_account.proto\x1a\x15rpc_get_account.proto\x1a\x16rpc_list_account.proto\x1a\x1crpc_renew_access_token.proto\x1a\x12rpc_transfer.proto2\xd0\x06\n" +
 	"\n" +
 	"SimpleBank\x12Q\n" +
 	"\n" +
 	"CreateUser\x12\x15.pb.CreateUserRequest\x1a\x16.pb.CreateUserResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v2/users\x12T\n" +
-	"\tLoginUser\x12\x14.pb.LoginUserRequest\x1a\x15.pb.LoginUserResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v2/users/login\x12X\n" +
+	"\tLoginUser\x12\x14.pb.LoginUserRequest\x1a\x15.pb.LoginUserResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v2/users/login\x12\\\n" +
 	"\n" +
-	"UpdateUser\x12\x15.pb.UpdateUserRequest\x1a\x16.pb.UpdateUserResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v2/users/update\x12X\n" +
+	"UpdateUser\x12\x15.pb.UpdateUserRequest\x1a\x16.pb.UpdateUserResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/v2/users/{username}\x12]\n" +
+	"\rCreateAccount\x12\x18.pb.CreateAccountRequest\x1a\x19.pb.CreateAccountResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v2/accounts\x12V\n" +
+	"\n" +
+	"GetAccount\x12\x15.pb.GetAccountRequest\x1a\x16.pb.GetAccountResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v2/accounts/{id}\x12T\n" +
+	"\vListAccount\x12\x16.pb.ListAccountRequest\x1a\x17.pb.ListAccountResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/v2/accounts\x12a\n" +
+	"\x0eCreateTransfer\x12\x19.pb.CreateTransferRequest\x1a\x1a.pb.CreateTransferResponse\"\x18\x82\xd3\xe4\x93\x02\x12:\x01*\"\r/v2/transfers\x12q\n" +
+	"\x10RenewAccessToken\x12\x1b.pb.RenewAccessTokenRequest\x1a\x1c.pb.RenewAccessTokenResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/v2/tokens/renew_access\x12X\n" +
 	"\vVerifyEmail\x12\x16.pb.VerifyEmailRequest\x1a\x17.pb.VerifyEmailResponse\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/v2/verify_emailB'Z%github.com/JeongWoo-Seo/simpleBank/pbb\x06proto3"
 
 var file_service_simple_bank_proto_goTypes = []any{
-	(*CreateUserRequest)(nil),   // 0: pb.CreateUserRequest
-	(*LoginUserRequest)(nil),    // 1: pb.LoginUserRequest
-	(*UpdateUserRequest)(nil),   // 2: pb.UpdateUserRequest
-	(*VerifyEmailRequest)(nil),  // 3: pb.VerifyEmailRequest
-	(*CreateUserResponse)(nil),  // 4: pb.CreateUserResponse
-	(*LoginUserResponse)(nil),   // 5: pb.LoginUserResponse
-	(*UpdateUserResponse)(nil),  // 6: pb.UpdateUserResponse
-	(*VerifyEmailResponse)(nil), // 7: pb.VerifyEmailResponse
+	(*CreateUserRequest)(nil),        // 0: pb.CreateUserRequest
+	(*LoginUserRequest)(nil),         // 1: pb.LoginUserRequest
+	(*UpdateUserRequest)(nil),        // 2: pb.UpdateUserRequest
+	(*CreateAccountRequest)(nil),     // 3: pb.CreateAccountRequest
+	(*GetAccountRequest)(nil),        // 4: pb.GetAccountRequest
+	(*ListAccountRequest)(nil),       // 5: pb.ListAccountRequest
+	(*CreateTransferRequest)(nil),    // 6: pb.CreateTransferRequest
+	(*RenewAccessTokenRequest)(nil),  // 7: pb.RenewAccessTokenRequest
+	(*VerifyEmailRequest)(nil),       // 8: pb.VerifyEmailRequest
+	(*CreateUserResponse)(nil),       // 9: pb.CreateUserResponse
+	(*LoginUserResponse)(nil),        // 10: pb.LoginUserResponse
+	(*UpdateUserResponse)(nil),       // 11: pb.UpdateUserResponse
+	(*CreateAccountResponse)(nil),    // 12: pb.CreateAccountResponse
+	(*GetAccountResponse)(nil),       // 13: pb.GetAccountResponse
+	(*ListAccountResponse)(nil),      // 14: pb.ListAccountResponse
+	(*CreateTransferResponse)(nil),   // 15: pb.CreateTransferResponse
+	(*RenewAccessTokenResponse)(nil), // 16: pb.RenewAccessTokenResponse
+	(*VerifyEmailResponse)(nil),      // 17: pb.VerifyEmailResponse
 }
 var file_service_simple_bank_proto_depIdxs = []int32{
-	0, // 0: pb.SimpleBank.CreateUser:input_type -> pb.CreateUserRequest
-	1, // 1: pb.SimpleBank.LoginUser:input_type -> pb.LoginUserRequest
-	2, // 2: pb.SimpleBank.UpdateUser:input_type -> pb.UpdateUserRequest
-	3, // 3: pb.SimpleBank.VerifyEmail:input_type -> pb.VerifyEmailRequest
-	4, // 4: pb.SimpleBank.CreateUser:output_type -> pb.CreateUserResponse
-	5, // 5: pb.SimpleBank.LoginUser:output_type -> pb.LoginUserResponse
-	6, // 6: pb.SimpleBank.UpdateUser:output_type -> pb.UpdateUserResponse
-	7, // 7: pb.SimpleBank.VerifyEmail:output_type -> pb.VerifyEmailResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: pb.SimpleBank.CreateUser:input_type -> pb.CreateUserRequest
+	1,  // 1: pb.SimpleBank.LoginUser:input_type -> pb.LoginUserRequest
+	2,  // 2: pb.SimpleBank.UpdateUser:input_type -> pb.UpdateUserRequest
+	3,  // 3: pb.SimpleBank.CreateAccount:input_type -> pb.CreateAccountRequest
+	4,  // 4: pb.SimpleBank.GetAccount:input_type -> pb.GetAccountRequest
+	5,  // 5: pb.SimpleBank.ListAccount:input_type -> pb.ListAccountRequest
+	6,  // 6: pb.SimpleBank.CreateTransfer:input_type -> pb.CreateTransferRequest
+	7,  // 7: pb.SimpleBank.RenewAccessToken:input_type -> pb.RenewAccessTokenRequest
+	8,  // 8: pb.SimpleBank.VerifyEmail:input_type -> pb.VerifyEmailRequest
+	9,  // 9: pb.SimpleBank.CreateUser:output_type -> pb.CreateUserResponse
+	10, // 10: pb.SimpleBank.LoginUser:output_type -> pb.LoginUserResponse
+	11, // 11: pb.SimpleBank.UpdateUser:output_type -> pb.UpdateUserResponse
+	12, // 12: pb.SimpleBank.CreateAccount:output_type -> pb.CreateAccountResponse
+	13, // 13: pb.SimpleBank.GetAccount:output_type -> pb.GetAccountResponse
+	14, // 14: pb.SimpleBank.ListAccount:output_type -> pb.ListAccountResponse
+	15, // 15: pb.SimpleBank.CreateTransfer:output_type -> pb.CreateTransferResponse
+	16, // 16: pb.SimpleBank.RenewAccessToken:output_type -> pb.RenewAccessTokenResponse
+	17, // 17: pb.SimpleBank.VerifyEmail:output_type -> pb.VerifyEmailResponse
+	9,  // [9:18] is the sub-list for method output_type
+	0,  // [0:9] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_service_simple_bank_proto_init() }
@@ -70,6 +96,11 @@ func file_service_simple_bank_proto_init() {
 	file_rpc_login_user_proto_init()
 	file_rpc_update_user_proto_init()
 	file_rpc_verify_email_proto_init()
+	file_rpc_create_account_proto_init()
+	file_rpc_get_account_proto_init()
+	file_rpc_list_account_proto_init()
+	file_rpc_renew_access_token_proto_init()
+	file_rpc_transfer_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
