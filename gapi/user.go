@@ -56,7 +56,7 @@ func (s *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb
 		if db.ErrorCode(err) == db.Uniqueviolation {
 			return nil, status.Errorf(codes.AlreadyExists, "%s", err)
 		}
-		return nil, status.Errorf(codes.Internal, "fail password %s", err)
+		return nil, status.Errorf(codes.Internal, "failed to ctreate user: %s", err)
 	}
 
 	res := &pb.CreateUserResponse{

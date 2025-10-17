@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/mail"
 	"regexp"
+
+	"github.com/JeongWoo-Seo/simpleBank/util"
 )
 
 var (
@@ -15,6 +17,13 @@ func ValidDataString(value string, minLen int, maxLen int) error {
 	n := len(value)
 	if n < minLen || n > maxLen {
 		return fmt.Errorf("must contain from %d-%d characters", minLen, maxLen)
+	}
+	return nil
+}
+
+func ValidDataID(value int64) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive integer")
 	}
 	return nil
 }
@@ -56,6 +65,13 @@ func ValidDateEmail(value string) error {
 	return nil
 }
 
+func ValidDateCurrency(value string) error {
+	if !util.IsSupportedCurrency(value) {
+		return fmt.Errorf("unsupport currency")
+	}
+	return nil
+}
+
 func ValidDataEmailID(value int64) error {
 	if value <= 0 {
 		return fmt.Errorf("must be a positive integer")
@@ -65,4 +81,18 @@ func ValidDataEmailID(value int64) error {
 
 func ValidDataSecretCode(value string) error {
 	return ValidDataString(value, 32, 128)
+}
+
+func ValidDatePageID(value int32) error {
+	if value <= 0 {
+		return fmt.Errorf("must be a positive integer")
+	}
+	return nil
+}
+
+func ValidDatePageSize(value int32) error {
+	if value < 5 || value > 10 {
+		return fmt.Errorf("page sizd is 5 ~ 10")
+	}
+	return nil
 }
