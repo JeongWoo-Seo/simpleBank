@@ -45,7 +45,7 @@ func ValidDateFullname(value string) error {
 	}
 
 	if !isValidFullname(value) {
-		return fmt.Errorf("Full name must contain letters")
+		return fmt.Errorf("full name must contain letters")
 	}
 	return nil
 }
@@ -68,6 +68,13 @@ func ValidDateEmail(value string) error {
 func ValidDateCurrency(value string) error {
 	if !util.IsSupportedCurrency(value) {
 		return fmt.Errorf("unsupport currency")
+	}
+	return nil
+}
+
+func ValidDataAmount(value int64) error {
+	if value < 0 {
+		return fmt.Errorf("must be a positive integer")
 	}
 	return nil
 }

@@ -243,8 +243,8 @@
         ]
       }
     },
-    "/v2/users/{username}": {
-      "put": {
+    "/v2/users/update": {
+      "patch": {
         "operationId": "SimpleBank_UpdateUser",
         "responses": {
           "200": {
@@ -262,17 +262,11 @@
         },
         "parameters": [
           {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SimpleBankUpdateUserBody"
+              "$ref": "#/definitions/pbUpdateUserRequest"
             }
           }
         ],
@@ -320,20 +314,6 @@
     }
   },
   "definitions": {
-    "SimpleBankUpdateUserBody": {
-      "type": "object",
-      "properties": {
-        "fullName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
     "pbAccount": {
       "type": "object",
       "properties": {
@@ -557,6 +537,23 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        }
+      }
+    },
+    "pbUpdateUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       }
     },

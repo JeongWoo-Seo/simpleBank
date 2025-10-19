@@ -25,14 +25,14 @@ var File_service_simple_bank_proto protoreflect.FileDescriptor
 
 const file_service_simple_bank_proto_rawDesc = "" +
 	"\n" +
-	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto\x1a\x18rpc_create_account.proto\x1a\x15rpc_get_account.proto\x1a\x16rpc_list_account.proto\x1a\x1crpc_renew_access_token.proto\x1a\x12rpc_transfer.proto2\xd0\x06\n" +
+	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto\x1a\x18rpc_create_account.proto\x1a\x15rpc_get_account.proto\x1a\x16rpc_list_account.proto\x1a\x1crpc_renew_access_token.proto\x1a\x12rpc_transfer.proto2\xcc\x06\n" +
 	"\n" +
 	"SimpleBank\x12Q\n" +
 	"\n" +
 	"CreateUser\x12\x15.pb.CreateUserRequest\x1a\x16.pb.CreateUserResponse\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v2/users\x12T\n" +
-	"\tLoginUser\x12\x14.pb.LoginUserRequest\x1a\x15.pb.LoginUserResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v2/users/login\x12\\\n" +
+	"\tLoginUser\x12\x14.pb.LoginUserRequest\x1a\x15.pb.LoginUserResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v2/users/login\x12X\n" +
 	"\n" +
-	"UpdateUser\x12\x15.pb.UpdateUserRequest\x1a\x16.pb.UpdateUserResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/v2/users/{username}\x12]\n" +
+	"UpdateUser\x12\x15.pb.UpdateUserRequest\x1a\x16.pb.UpdateUserResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*2\x10/v2/users/update\x12]\n" +
 	"\rCreateAccount\x12\x18.pb.CreateAccountRequest\x1a\x19.pb.CreateAccountResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v2/accounts\x12V\n" +
 	"\n" +
 	"GetAccount\x12\x15.pb.GetAccountRequest\x1a\x16.pb.GetAccountResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v2/accounts/{id}\x12T\n" +

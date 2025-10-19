@@ -32,7 +32,7 @@ service SimpleBank {
 
     rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
-            put: "/v2/users/{username}"
+            patch : "/v2/users/update"
             body: "*"
         };
     }
