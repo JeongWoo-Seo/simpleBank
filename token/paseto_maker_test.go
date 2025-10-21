@@ -68,9 +68,60 @@ func TestInvalidPasetoToken(t *testing.T) {
 	correctMaker, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
 
-	// 서버에서 검증 시도 → 실패해야 함
 	payload, err = correctMaker.VerifyToken(token)
 	require.Error(t, err)
 	require.EqualError(t, err, ErrInvalidToken.Error())
 	require.Nil(t, payload)
+}
+
+var benchmarkPasetoMaker Maker
+var benchmarkPasetoSecretKey string = util.RandomString(32)
+
+func init() {
+	var err error
+
+	benchmarkPasetoMaker, err = NewPasetoMaker(benchmarkPasetoSecretKey)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// ----------------------------------------------------
+// 1. PASETO 토큰 생성 속도 측정
+// ----------------------------------------------------
+
+func BenchmarkPasetoCreateToken(b *testing.B) {
+	username := util.RandomOwner()
+	role := util.DepositorRole
+	duration := time.Minute
+
+	for i := 0; i < b.N; i++ {
+		_, _, err := benchmarkPasetoMaker.CreateToken(username, role, duration)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// ----------------------------------------------------
+// 2. PASETO 토큰 검증 속도 측정
+// ----------------------------------------------------
+
+func BenchmarkPasetoVerifyToken(b *testing.B) {
+	b.StopTimer()
+	username := util.RandomOwner()
+	role := util.DepositorRole
+	duration := time.Minute
+
+	token, _, err := benchmarkPasetoMaker.CreateToken(username, role, duration)
+	require.NoError(b, err)
+
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		_, err := benchmarkPasetoMaker.VerifyToken(token)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
 }

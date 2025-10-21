@@ -67,3 +67,55 @@ func TestInvalidJWTToken(t *testing.T) {
 	require.EqualError(t, err, ErrInvalidToken.Error())
 	require.Nil(t, payload)
 }
+
+var benchmarkMaker Maker
+var benchmarkSecretKey string = util.RandomString(32)
+
+func init() {
+	var err error
+	benchmarkMaker, err = NewJWTMaker(benchmarkSecretKey)
+	if err != nil {
+		panic(err)
+	}
+}
+
+// ----------------------------------------------------
+// 1. 토큰 생성 속도 측정
+// ----------------------------------------------------
+
+func BenchmarkCreateToken(b *testing.B) {
+	username := util.RandomOwner()
+	role := util.DepositorRole
+	duration := time.Minute
+
+	// b.N은 테스트 프레임워크가 결정하는 반복 횟수입니다.
+	for i := 0; i < b.N; i++ {
+		_, _, err := benchmarkMaker.CreateToken(username, role, duration)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+// ----------------------------------------------------
+// 2. 토큰 검증 속도 측정
+// ----------------------------------------------------
+
+func BenchmarkVerifyToken(b *testing.B) {
+	b.StopTimer()
+	username := util.RandomOwner()
+	role := util.DepositorRole
+	duration := time.Minute
+
+	token, _, err := benchmarkMaker.CreateToken(username, role, duration)
+	require.NoError(b, err)
+
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		_, err := benchmarkMaker.VerifyToken(token)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}

@@ -18,61 +18,61 @@ option go_package = "github.com/JeongWoo-Seo/simpleBank/pb";
 service SimpleBank {
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
         option (google.api.http) = {
-            post: "/v2/users"
+            post: "/users"
             body: "*"
         };
     }
 
     rpc LoginUser (LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
-            post: "/v2/users/login"
+            post: "/users/login"
             body: "*"
         };
     }
 
     rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {
         option (google.api.http) = {
-            patch : "/v2/users/update"
+            patch : "/users/update"
             body: "*"
         };
     }
 
     rpc CreateAccount (CreateAccountRequest) returns (CreateAccountResponse) {
         option (google.api.http) = {
-            post: "/v2/accounts"
+            post: "/accounts"
             body: "*"
         };
     }
 
     rpc GetAccount (GetAccountRequest) returns (GetAccountResponse) {
         option (google.api.http) = {
-            get: "/v2/accounts/{id}"
+            get: "/accounts/{id}"
         };
     }
 
     rpc ListAccount (ListAccountRequest) returns (ListAccountResponse) {
         option (google.api.http) = {
-            get: "/v2/accounts"
+            get: "/accounts"
         };
     }
 
     rpc CreateTransfer (CreateTransferRequest) returns (CreateTransferResponse) {
         option (google.api.http) = {
-            post: "/v2/transfers"
+            post: "/transfers"
             body: "*"
         };
     }
 
     rpc RenewAccessToken (RenewAccessTokenRequest) returns (RenewAccessTokenResponse) {
         option (google.api.http) = {
-            post: "/v2/tokens/renew_access"
+            post: "/tokens/renew_access"
             body: "*"
         };
     }
 
     rpc VerifyEmail (VerifyEmailRequest) returns (VerifyEmailResponse) {
         option (google.api.http) = {
-            get: "/v2/verify_email"
+            get: "/verify_email"
         };
     }
 }

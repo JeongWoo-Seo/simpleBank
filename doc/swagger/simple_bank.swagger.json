@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/v2/accounts": {
+    "/accounts": {
       "get": {
         "operationId": "SimpleBank_ListAccount",
         "responses": {
@@ -84,7 +84,7 @@
         ]
       }
     },
-    "/v2/accounts/{id}": {
+    "/accounts/{id}": {
       "get": {
         "operationId": "SimpleBank_GetAccount",
         "responses": {
@@ -115,7 +115,7 @@
         ]
       }
     },
-    "/v2/tokens/renew_access": {
+    "/tokens/renew_access": {
       "post": {
         "operationId": "SimpleBank_RenewAccessToken",
         "responses": {
@@ -147,7 +147,7 @@
         ]
       }
     },
-    "/v2/transfers": {
+    "/transfers": {
       "post": {
         "operationId": "SimpleBank_CreateTransfer",
         "responses": {
@@ -179,7 +179,7 @@
         ]
       }
     },
-    "/v2/users": {
+    "/users": {
       "post": {
         "operationId": "SimpleBank_CreateUser",
         "responses": {
@@ -211,7 +211,7 @@
         ]
       }
     },
-    "/v2/users/login": {
+    "/users/login": {
       "post": {
         "operationId": "SimpleBank_LoginUser",
         "responses": {
@@ -243,7 +243,7 @@
         ]
       }
     },
-    "/v2/users/update": {
+    "/users/update": {
       "patch": {
         "operationId": "SimpleBank_UpdateUser",
         "responses": {
@@ -275,7 +275,7 @@
         ]
       }
     },
-    "/v2/verify_email": {
+    "/verify_email": {
       "get": {
         "operationId": "SimpleBank_VerifyEmail",
         "responses": {

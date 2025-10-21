@@ -64,4 +64,16 @@ evans:
 redis:
 	docker run --name redis -p 6379:6379 -d redis:8-alpine
 
-.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 new_migrate sqlc test server mock dbdocs dbml2sql proto evans redis
+vegeta:
+	vegeta attack -targets=./performanceTest/targets.txt \
+    -rate=100/1s \
+    -duration=30s \
+    -output ./performanceTest/results.bin
+
+vegeta_text:	
+	vegeta report -type text ./performanceTest/results.bin > ./performanceTest/report.txt
+
+vegeta_plot:
+	vegeta plot ./performanceTest/results.bin > ./performanceTest/results.html
+
+.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 new_migrate sqlc test server mock dbdocs dbml2sql proto evans redis vegeta vegeta_text vegeta_plot
