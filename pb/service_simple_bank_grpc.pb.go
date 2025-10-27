@@ -26,6 +26,7 @@ const (
 	SimpleBank_GetAccount_FullMethodName       = "/pb.SimpleBank/GetAccount"
 	SimpleBank_ListAccount_FullMethodName      = "/pb.SimpleBank/ListAccount"
 	SimpleBank_CreateTransfer_FullMethodName   = "/pb.SimpleBank/CreateTransfer"
+	SimpleBank_ListTransfer_FullMethodName     = "/pb.SimpleBank/ListTransfer"
 	SimpleBank_RenewAccessToken_FullMethodName = "/pb.SimpleBank/RenewAccessToken"
 	SimpleBank_VerifyEmail_FullMethodName      = "/pb.SimpleBank/VerifyEmail"
 )
@@ -41,6 +42,7 @@ type SimpleBankClient interface {
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	ListAccount(ctx context.Context, in *ListAccountRequest, opts ...grpc.CallOption) (*ListAccountResponse, error)
 	CreateTransfer(ctx context.Context, in *CreateTransferRequest, opts ...grpc.CallOption) (*CreateTransferResponse, error)
+	ListTransfer(ctx context.Context, in *ListTransferRequest, opts ...grpc.CallOption) (*ListTransferResponse, error)
 	RenewAccessToken(ctx context.Context, in *RenewAccessTokenRequest, opts ...grpc.CallOption) (*RenewAccessTokenResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error)
 }
@@ -123,6 +125,16 @@ func (c *simpleBankClient) CreateTransfer(ctx context.Context, in *CreateTransfe
 	return out, nil
 }
 
+func (c *simpleBankClient) ListTransfer(ctx context.Context, in *ListTransferRequest, opts ...grpc.CallOption) (*ListTransferResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTransferResponse)
+	err := c.cc.Invoke(ctx, SimpleBank_ListTransfer_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *simpleBankClient) RenewAccessToken(ctx context.Context, in *RenewAccessTokenRequest, opts ...grpc.CallOption) (*RenewAccessTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RenewAccessTokenResponse)
@@ -154,6 +166,7 @@ type SimpleBankServer interface {
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	ListAccount(context.Context, *ListAccountRequest) (*ListAccountResponse, error)
 	CreateTransfer(context.Context, *CreateTransferRequest) (*CreateTransferResponse, error)
+	ListTransfer(context.Context, *ListTransferRequest) (*ListTransferResponse, error)
 	RenewAccessToken(context.Context, *RenewAccessTokenRequest) (*RenewAccessTokenResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error)
 	mustEmbedUnimplementedSimpleBankServer()
@@ -186,6 +199,9 @@ func (UnimplementedSimpleBankServer) ListAccount(context.Context, *ListAccountRe
 }
 func (UnimplementedSimpleBankServer) CreateTransfer(context.Context, *CreateTransferRequest) (*CreateTransferResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTransfer not implemented")
+}
+func (UnimplementedSimpleBankServer) ListTransfer(context.Context, *ListTransferRequest) (*ListTransferResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTransfer not implemented")
 }
 func (UnimplementedSimpleBankServer) RenewAccessToken(context.Context, *RenewAccessTokenRequest) (*RenewAccessTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RenewAccessToken not implemented")
@@ -340,6 +356,24 @@ func _SimpleBank_CreateTransfer_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SimpleBank_ListTransfer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTransferRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SimpleBankServer).ListTransfer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SimpleBank_ListTransfer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SimpleBankServer).ListTransfer(ctx, req.(*ListTransferRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SimpleBank_RenewAccessToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RenewAccessTokenRequest)
 	if err := dec(in); err != nil {
@@ -410,6 +444,10 @@ var SimpleBank_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateTransfer",
 			Handler:    _SimpleBank_CreateTransfer_Handler,
+		},
+		{
+			MethodName: "ListTransfer",
+			Handler:    _SimpleBank_ListTransfer_Handler,
 		},
 		{
 			MethodName: "RenewAccessToken",

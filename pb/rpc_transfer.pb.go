@@ -242,6 +242,110 @@ func (x *CreateTransferResponse) GetToEntry() *Entry {
 	return nil
 }
 
+type ListTransferRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccountId     int64                  `protobuf:"varint,1,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	PageId        int32                  `protobuf:"varint,2,opt,name=page_id,json=pageId,proto3" json:"page_id,omitempty"`
+	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListTransferRequest) Reset() {
+	*x = ListTransferRequest{}
+	mi := &file_rpc_transfer_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTransferRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTransferRequest) ProtoMessage() {}
+
+func (x *ListTransferRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_transfer_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTransferRequest.ProtoReflect.Descriptor instead.
+func (*ListTransferRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_transfer_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListTransferRequest) GetAccountId() int64 {
+	if x != nil {
+		return x.AccountId
+	}
+	return 0
+}
+
+func (x *ListTransferRequest) GetPageId() int32 {
+	if x != nil {
+		return x.PageId
+	}
+	return 0
+}
+
+func (x *ListTransferRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+type ListTransferResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Transfers     []*Transfer            `protobuf:"bytes,1,rep,name=transfers,proto3" json:"transfers,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListTransferResponse) Reset() {
+	*x = ListTransferResponse{}
+	mi := &file_rpc_transfer_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTransferResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTransferResponse) ProtoMessage() {}
+
+func (x *ListTransferResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_transfer_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTransferResponse.ProtoReflect.Descriptor instead.
+func (*ListTransferResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_transfer_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ListTransferResponse) GetTransfers() []*Transfer {
+	if x != nil {
+		return x.Transfers
+	}
+	return nil
+}
+
 var File_rpc_transfer_proto protoreflect.FileDescriptor
 
 const file_rpc_transfer_proto_rawDesc = "" +
@@ -264,7 +368,14 @@ const file_rpc_transfer_proto_rawDesc = "" +
 	"\vfromAccount\x18\x02 \x01(\v2\v.pb.AccountR\vfromAccount\x12)\n" +
 	"\ttoAccount\x18\x03 \x01(\v2\v.pb.AccountR\ttoAccount\x12'\n" +
 	"\tfromEntry\x18\x04 \x01(\v2\t.pb.EntryR\tfromEntry\x12#\n" +
-	"\atoEntry\x18\x05 \x01(\v2\t.pb.EntryR\atoEntryB'Z%github.com/JeongWoo-Seo/simpleBank/pbb\x06proto3"
+	"\atoEntry\x18\x05 \x01(\v2\t.pb.EntryR\atoEntry\"j\n" +
+	"\x13ListTransferRequest\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x01 \x01(\x03R\taccountId\x12\x17\n" +
+	"\apage_id\x18\x02 \x01(\x05R\x06pageId\x12\x1b\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"B\n" +
+	"\x14ListTransferResponse\x12*\n" +
+	"\ttransfers\x18\x01 \x03(\v2\f.pb.TransferR\ttransfersB'Z%github.com/JeongWoo-Seo/simpleBank/pbb\x06proto3"
 
 var (
 	file_rpc_transfer_proto_rawDescOnce sync.Once
@@ -278,27 +389,30 @@ func file_rpc_transfer_proto_rawDescGZIP() []byte {
 	return file_rpc_transfer_proto_rawDescData
 }
 
-var file_rpc_transfer_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_rpc_transfer_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_rpc_transfer_proto_goTypes = []any{
 	(*Transfer)(nil),               // 0: pb.Transfer
 	(*CreateTransferRequest)(nil),  // 1: pb.CreateTransferRequest
 	(*CreateTransferResponse)(nil), // 2: pb.CreateTransferResponse
-	(*timestamppb.Timestamp)(nil),  // 3: google.protobuf.Timestamp
-	(*Account)(nil),                // 4: pb.Account
-	(*Entry)(nil),                  // 5: pb.Entry
+	(*ListTransferRequest)(nil),    // 3: pb.ListTransferRequest
+	(*ListTransferResponse)(nil),   // 4: pb.ListTransferResponse
+	(*timestamppb.Timestamp)(nil),  // 5: google.protobuf.Timestamp
+	(*Account)(nil),                // 6: pb.Account
+	(*Entry)(nil),                  // 7: pb.Entry
 }
 var file_rpc_transfer_proto_depIdxs = []int32{
-	3, // 0: pb.Transfer.created_at:type_name -> google.protobuf.Timestamp
+	5, // 0: pb.Transfer.created_at:type_name -> google.protobuf.Timestamp
 	0, // 1: pb.CreateTransferResponse.transfer:type_name -> pb.Transfer
-	4, // 2: pb.CreateTransferResponse.fromAccount:type_name -> pb.Account
-	4, // 3: pb.CreateTransferResponse.toAccount:type_name -> pb.Account
-	5, // 4: pb.CreateTransferResponse.fromEntry:type_name -> pb.Entry
-	5, // 5: pb.CreateTransferResponse.toEntry:type_name -> pb.Entry
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	6, // 2: pb.CreateTransferResponse.fromAccount:type_name -> pb.Account
+	6, // 3: pb.CreateTransferResponse.toAccount:type_name -> pb.Account
+	7, // 4: pb.CreateTransferResponse.fromEntry:type_name -> pb.Entry
+	7, // 5: pb.CreateTransferResponse.toEntry:type_name -> pb.Entry
+	0, // 6: pb.ListTransferResponse.transfers:type_name -> pb.Transfer
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_rpc_transfer_proto_init() }
@@ -314,7 +428,7 @@ func file_rpc_transfer_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_rpc_transfer_proto_rawDesc), len(file_rpc_transfer_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

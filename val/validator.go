@@ -98,7 +98,7 @@ func ValidDatePageID(value int32) error {
 }
 
 func ValidDatePageSize(value int32) error {
-	if value < 5 || value > 10 {
+	if value < 5 || value > 1001 {
 		return fmt.Errorf("page sizd is 5 ~ 10")
 	}
 	return nil

@@ -25,7 +25,7 @@ var File_service_simple_bank_proto protoreflect.FileDescriptor
 
 const file_service_simple_bank_proto_rawDesc = "" +
 	"\n" +
-	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto\x1a\x18rpc_create_account.proto\x1a\x15rpc_get_account.proto\x1a\x16rpc_list_account.proto\x1a\x1crpc_renew_access_token.proto\x1a\x12rpc_transfer.proto2\xb1\x06\n" +
+	"\x19service_simple_bank.proto\x12\x02pb\x1a\x1cgoogle/api/annotations.proto\x1a\x15rpc_create_user.proto\x1a\x14rpc_login_user.proto\x1a\x15rpc_update_user.proto\x1a\x16rpc_verify_email.proto\x1a\x18rpc_create_account.proto\x1a\x15rpc_get_account.proto\x1a\x16rpc_list_account.proto\x1a\x1crpc_renew_access_token.proto\x1a\x12rpc_transfer.proto2\x88\a\n" +
 	"\n" +
 	"SimpleBank\x12N\n" +
 	"\n" +
@@ -38,6 +38,8 @@ const file_service_simple_bank_proto_rawDesc = "" +
 	"GetAccount\x12\x15.pb.GetAccountRequest\x1a\x16.pb.GetAccountResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/accounts/{id}\x12Q\n" +
 	"\vListAccount\x12\x16.pb.ListAccountRequest\x1a\x17.pb.ListAccountResponse\"\x11\x82\xd3\xe4\x93\x02\v\x12\t/accounts\x12^\n" +
 	"\x0eCreateTransfer\x12\x19.pb.CreateTransferRequest\x1a\x1a.pb.CreateTransferResponse\"\x15\x82\xd3\xe4\x93\x02\x0f:\x01*\"\n" +
+	"/transfers\x12U\n" +
+	"\fListTransfer\x12\x17.pb.ListTransferRequest\x1a\x18.pb.ListTransferResponse\"\x12\x82\xd3\xe4\x93\x02\f\x12\n" +
 	"/transfers\x12n\n" +
 	"\x10RenewAccessToken\x12\x1b.pb.RenewAccessTokenRequest\x1a\x1c.pb.RenewAccessTokenResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/tokens/renew_access\x12U\n" +
 	"\vVerifyEmail\x12\x16.pb.VerifyEmailRequest\x1a\x17.pb.VerifyEmailResponse\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/verify_emailB'Z%github.com/JeongWoo-Seo/simpleBank/pbb\x06proto3"
@@ -50,17 +52,19 @@ var file_service_simple_bank_proto_goTypes = []any{
 	(*GetAccountRequest)(nil),        // 4: pb.GetAccountRequest
 	(*ListAccountRequest)(nil),       // 5: pb.ListAccountRequest
 	(*CreateTransferRequest)(nil),    // 6: pb.CreateTransferRequest
-	(*RenewAccessTokenRequest)(nil),  // 7: pb.RenewAccessTokenRequest
-	(*VerifyEmailRequest)(nil),       // 8: pb.VerifyEmailRequest
-	(*CreateUserResponse)(nil),       // 9: pb.CreateUserResponse
-	(*LoginUserResponse)(nil),        // 10: pb.LoginUserResponse
-	(*UpdateUserResponse)(nil),       // 11: pb.UpdateUserResponse
-	(*CreateAccountResponse)(nil),    // 12: pb.CreateAccountResponse
-	(*GetAccountResponse)(nil),       // 13: pb.GetAccountResponse
-	(*ListAccountResponse)(nil),      // 14: pb.ListAccountResponse
-	(*CreateTransferResponse)(nil),   // 15: pb.CreateTransferResponse
-	(*RenewAccessTokenResponse)(nil), // 16: pb.RenewAccessTokenResponse
-	(*VerifyEmailResponse)(nil),      // 17: pb.VerifyEmailResponse
+	(*ListTransferRequest)(nil),      // 7: pb.ListTransferRequest
+	(*RenewAccessTokenRequest)(nil),  // 8: pb.RenewAccessTokenRequest
+	(*VerifyEmailRequest)(nil),       // 9: pb.VerifyEmailRequest
+	(*CreateUserResponse)(nil),       // 10: pb.CreateUserResponse
+	(*LoginUserResponse)(nil),        // 11: pb.LoginUserResponse
+	(*UpdateUserResponse)(nil),       // 12: pb.UpdateUserResponse
+	(*CreateAccountResponse)(nil),    // 13: pb.CreateAccountResponse
+	(*GetAccountResponse)(nil),       // 14: pb.GetAccountResponse
+	(*ListAccountResponse)(nil),      // 15: pb.ListAccountResponse
+	(*CreateTransferResponse)(nil),   // 16: pb.CreateTransferResponse
+	(*ListTransferResponse)(nil),     // 17: pb.ListTransferResponse
+	(*RenewAccessTokenResponse)(nil), // 18: pb.RenewAccessTokenResponse
+	(*VerifyEmailResponse)(nil),      // 19: pb.VerifyEmailResponse
 }
 var file_service_simple_bank_proto_depIdxs = []int32{
 	0,  // 0: pb.SimpleBank.CreateUser:input_type -> pb.CreateUserRequest
@@ -70,19 +74,21 @@ var file_service_simple_bank_proto_depIdxs = []int32{
 	4,  // 4: pb.SimpleBank.GetAccount:input_type -> pb.GetAccountRequest
 	5,  // 5: pb.SimpleBank.ListAccount:input_type -> pb.ListAccountRequest
 	6,  // 6: pb.SimpleBank.CreateTransfer:input_type -> pb.CreateTransferRequest
-	7,  // 7: pb.SimpleBank.RenewAccessToken:input_type -> pb.RenewAccessTokenRequest
-	8,  // 8: pb.SimpleBank.VerifyEmail:input_type -> pb.VerifyEmailRequest
-	9,  // 9: pb.SimpleBank.CreateUser:output_type -> pb.CreateUserResponse
-	10, // 10: pb.SimpleBank.LoginUser:output_type -> pb.LoginUserResponse
-	11, // 11: pb.SimpleBank.UpdateUser:output_type -> pb.UpdateUserResponse
-	12, // 12: pb.SimpleBank.CreateAccount:output_type -> pb.CreateAccountResponse
-	13, // 13: pb.SimpleBank.GetAccount:output_type -> pb.GetAccountResponse
-	14, // 14: pb.SimpleBank.ListAccount:output_type -> pb.ListAccountResponse
-	15, // 15: pb.SimpleBank.CreateTransfer:output_type -> pb.CreateTransferResponse
-	16, // 16: pb.SimpleBank.RenewAccessToken:output_type -> pb.RenewAccessTokenResponse
-	17, // 17: pb.SimpleBank.VerifyEmail:output_type -> pb.VerifyEmailResponse
-	9,  // [9:18] is the sub-list for method output_type
-	0,  // [0:9] is the sub-list for method input_type
+	7,  // 7: pb.SimpleBank.ListTransfer:input_type -> pb.ListTransferRequest
+	8,  // 8: pb.SimpleBank.RenewAccessToken:input_type -> pb.RenewAccessTokenRequest
+	9,  // 9: pb.SimpleBank.VerifyEmail:input_type -> pb.VerifyEmailRequest
+	10, // 10: pb.SimpleBank.CreateUser:output_type -> pb.CreateUserResponse
+	11, // 11: pb.SimpleBank.LoginUser:output_type -> pb.LoginUserResponse
+	12, // 12: pb.SimpleBank.UpdateUser:output_type -> pb.UpdateUserResponse
+	13, // 13: pb.SimpleBank.CreateAccount:output_type -> pb.CreateAccountResponse
+	14, // 14: pb.SimpleBank.GetAccount:output_type -> pb.GetAccountResponse
+	15, // 15: pb.SimpleBank.ListAccount:output_type -> pb.ListAccountResponse
+	16, // 16: pb.SimpleBank.CreateTransfer:output_type -> pb.CreateTransferResponse
+	17, // 17: pb.SimpleBank.ListTransfer:output_type -> pb.ListTransferResponse
+	18, // 18: pb.SimpleBank.RenewAccessToken:output_type -> pb.RenewAccessTokenResponse
+	19, // 19: pb.SimpleBank.VerifyEmail:output_type -> pb.VerifyEmailResponse
+	10, // [10:20] is the sub-list for method output_type
+	0,  // [0:10] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

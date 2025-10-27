@@ -96,3 +96,67 @@ func (s *Server) validAccount(ctx context.Context, accountID int64, currency str
 
 	return account, nil
 }
+
+func (s *Server) ListTransfer(ctx context.Context, req *pb.ListTransferRequest) (*pb.ListTransferResponse, error) {
+	authPayload, err := s.authorizationUser(ctx, []string{util.DepositorRole, util.BankerRole})
+	if err != nil {
+		return nil, unauthenticatedError(err)
+	}
+
+	violation := validDataListTransferRequest(req)
+	if violation != nil {
+		return nil, invalidArgumentError(violation)
+	}
+
+	account, err := s.store.GetAccount(ctx, req.GetAccountId())
+	if err != nil {
+		if errors.Is(err, db.ErrRecordNotFound) {
+			return nil, status.Errorf(codes.NotFound, "account no exist")
+		}
+		return nil, status.Errorf(codes.Internal, "failed to get account : %s ", err)
+	}
+
+	if authPayload.Role != util.BankerRole && authPayload.Username != account.Owner {
+		return nil, status.Errorf(codes.PermissionDenied, "you don't have permission to view this account")
+	}
+
+	arg := db.ListTransfersParams{
+		FromAccountID: req.AccountId,
+		Limit:         req.GetPageSize(),
+		Offset:        (req.GetPageId() - 1) * req.GetPageSize(),
+	}
+
+	transferList, err := s.store.ListTransfers(ctx, arg)
+	if err != nil {
+		if errors.Is(err, db.ErrRecordNotFound) {
+			return nil, status.Errorf(codes.NotFound, "transfer no exist")
+		}
+		return nil, status.Errorf(codes.Internal, "failed to get transfer : %s ", err)
+	}
+
+	var pbTransfers []*pb.Transfer
+	for _, transfer := range transferList {
+		pbTransfers = append(pbTransfers, converterTransfer(transfer))
+	}
+	res := &pb.ListTransferResponse{
+		Transfers: pbTransfers,
+	}
+
+	return res, nil
+}
+
+func validDataListTransferRequest(req *pb.ListTransferRequest) (violations []*errdetails.BadRequest_FieldViolation) {
+	if err := val.ValidDataID(req.GetAccountId()); err != nil {
+		violations = append(violations, fieldViolation("account_id", err))
+	}
+
+	if err := val.ValidDatePageID(req.GetPageId()); err != nil {
+		violations = append(violations, fieldViolation("page_id", err))
+	}
+
+	if err := val.ValidDatePageSize(req.GetPageSize()); err != nil {
+		violations = append(violations, fieldViolation("page_size", err))
+	}
+
+	return violations
+}

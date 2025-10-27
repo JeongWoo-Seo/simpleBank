@@ -148,6 +148,49 @@
       }
     },
     "/transfers": {
+      "get": {
+        "operationId": "SimpleBank_ListTransfer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/pbListTransferResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pageId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "SimpleBank"
+        ]
+      },
       "post": {
         "operationId": "SimpleBank_CreateTransfer",
         "responses": {
@@ -455,6 +498,18 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/pbAccount"
+          }
+        }
+      }
+    },
+    "pbListTransferResponse": {
+      "type": "object",
+      "properties": {
+        "transfers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/pbTransfer"
           }
         }
       }

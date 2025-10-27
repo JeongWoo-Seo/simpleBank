@@ -63,6 +63,12 @@ service SimpleBank {
         };
     }
 
+    rpc ListTransfer (ListTransferRequest) returns (ListTransferResponse) {
+        option (google.api.http) = {
+            get: "/transfers"
+        };
+    }
+
     rpc RenewAccessToken (RenewAccessTokenRequest) returns (RenewAccessTokenResponse) {
         option (google.api.http) = {
             post: "/tokens/renew_access"

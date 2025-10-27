@@ -73,6 +73,7 @@ func main() {
 	runTaskProcessor(ctx, waitGrop, config, redisOpt, store)
 	runGatewayServer(ctx, waitGrop, config, store, taskDistributor)
 	runGrpcServer(ctx, waitGrop, config, store, taskDistributor)
+	//runGinServer(config, store)
 
 	err = waitGrop.Wait()
 	if err != nil {
